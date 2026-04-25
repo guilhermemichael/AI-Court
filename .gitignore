@@ -1,6 +1,7 @@
 # Python
 __pycache__/
 *.py[cod]
+*.egg-info/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
@@ -14,6 +15,8 @@ venv/
 node_modules/
 dist/
 .vite/
+*.tsbuildinfo
+/package-lock.json
 
 # Runtime
 *.log
