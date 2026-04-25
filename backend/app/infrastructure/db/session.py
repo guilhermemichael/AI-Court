@@ -10,7 +10,11 @@ from sqlalchemy.ext.asyncio import (
 from app.settings import get_settings
 
 settings = get_settings()
-engine: AsyncEngine = create_async_engine(settings.database_url, pool_pre_ping=True)
+engine_kwargs: dict[str, object] = {"pool_pre_ping": not settings.is_sqlite}
+if settings.is_sqlite:
+    engine_kwargs["connect_args"] = {"check_same_thread": False}
+
+engine: AsyncEngine = create_async_engine(settings.database_url, **engine_kwargs)
 SessionLocal = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 

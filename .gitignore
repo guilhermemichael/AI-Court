@@ -10,6 +10,8 @@ venv/
 .env
 .env.*
 !.env.example
+!.env.local.example
+!backend/.env.local.example
 
 # Node
 node_modules/
@@ -22,6 +24,9 @@ dist/
 *.log
 storage/
 *.pdf
+!backend/storage/
+!backend/storage/pdfs/
+backend/storage/*.db
 
 # OS/IDE
 .DS_Store

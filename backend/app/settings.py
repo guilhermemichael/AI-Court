@@ -5,7 +5,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=(".env.local", ".env"),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
     app_name: str = "AI Court"
     app_env: str = "local"
@@ -23,6 +27,10 @@ class Settings(BaseSettings):
     embedding_dimensions: int = 1536
     rate_limit_per_minute: int = 60
     trial_step_delay_ms: int = Field(default=450, ge=0, le=5000)
+
+    @property
+    def is_sqlite(self) -> bool:
+        return self.database_url.startswith("sqlite")
 
 
 @lru_cache(maxsize=1)

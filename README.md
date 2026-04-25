@@ -191,6 +191,31 @@ Docs:     http://localhost:8000/docs
 Health:   http://localhost:8000/health
 ```
 
+### Modo local sem Docker no Windows
+
+Se o Docker Desktop nao estiver disponivel, rode tudo localmente com SQLite:
+
+```powershell
+cd C:\Users\guilh\PROJETOS\AI-Court
+.\run-local.ps1
+```
+
+O script:
+
+- cria `backend/.env.local` a partir de `backend/.env.local.example`;
+- prepara a `.venv` se necessario;
+- instala dependencias do backend e frontend;
+- sobe o backend em `127.0.0.1:8000`;
+- abre o frontend em `http://localhost:5173`.
+
+Atalhos uteis:
+
+```powershell
+.\run-local.ps1 -BackendOnly
+.\run-local.ps1 -FrontendOnly
+.\run-local.ps1 -SkipInstall
+```
+
 ## Comandos uteis
 
 ```bash

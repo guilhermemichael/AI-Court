@@ -3,6 +3,7 @@ from datetime import datetime
 
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
+    JSON,
     Boolean,
     DateTime,
     ForeignKey,
@@ -11,18 +12,29 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    Uuid,
     func,
 )
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.infrastructure.db.base import Base
+from app.settings import get_settings
+
+settings = get_settings()
+json_type = JSON().with_variant(JSONB, "postgresql")
+embedding_type = JSON()
+if not settings.is_sqlite:
+    embedding_type = embedding_type.with_variant(
+        Vector(settings.embedding_dimensions),
+        "postgresql",
+    )
 
 
 class CaseModel(Base):
     __tablename__ = "cases"
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title: Mapped[str] = mapped_column(String(180), nullable=False)
     plaintiff_name: Mapped[str] = mapped_column(String(80), nullable=False)
     defendant_name: Mapped[str] = mapped_column(String(80), nullable=False)
@@ -49,9 +61,9 @@ class TrialEventModel(Base):
     __tablename__ = "trial_events"
     __table_args__ = (UniqueConstraint("case_id", "sequence_index", name="uq_case_event_sequence"),)
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
     case_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        Uuid(as_uuid=True),
         ForeignKey("cases.id", ondelete="CASCADE"),
         nullable=False,
     )
@@ -60,7 +72,7 @@ class TrialEventModel(Base):
     agent_role: Mapped[str | None] = mapped_column(String(60))
     content: Mapped[str] = mapped_column(Text, nullable=False)
     event_metadata: Mapped[dict[str, object]] = mapped_column(
-        "metadata", JSONB, nullable=False, default=dict
+        "metadata", json_type, nullable=False, default=dict
     )
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
@@ -70,9 +82,9 @@ class TrialEventModel(Base):
 class VerdictModel(Base):
     __tablename__ = "verdicts"
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
     case_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        Uuid(as_uuid=True),
         ForeignKey("cases.id", ondelete="CASCADE"),
         unique=True,
         nullable=False,
@@ -89,16 +101,16 @@ class VerdictModel(Base):
 class PrecedentModel(Base):
     __tablename__ = "precedents"
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
     source_case_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        Uuid(as_uuid=True),
         ForeignKey("cases.id", ondelete="CASCADE"),
         nullable=False,
     )
     principle: Mapped[str] = mapped_column(String(140), nullable=False)
     summary: Mapped[str] = mapped_column(Text, nullable=False)
     outcome_trend: Mapped[str] = mapped_column(String(80), nullable=False)
-    embedding: Mapped[list[float] | None] = mapped_column(Vector(1536))
+    embedding: Mapped[list[float] | None] = mapped_column(embedding_type)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
