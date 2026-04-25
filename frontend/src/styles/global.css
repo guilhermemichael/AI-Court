@@ -1,0 +1,472 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --marble-white: #f4f1ea;
+  --aged-parchment: #d8c7a3;
+  --judicial-gold: #b8924a;
+  --deep-burgundy: #4a111a;
+  --obsidian-black: #111111;
+  --ink-gray: #2a2a2a;
+  --verdict-green: #1f6f50;
+  --appeal-red: #8a1c1c;
+  --shadow-soft: 0 24px 60px rgba(17, 17, 17, 0.18);
+  color: var(--ink-gray);
+  font-family: 'IBM Plex Mono', monospace;
+  background: linear-gradient(180deg, #20171a 0%, #0f0d10 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top, rgba(255, 233, 184, 0.14), transparent 34%),
+    linear-gradient(180deg, #1d1418 0%, #0f0d10 100%);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 28px;
+  background:
+    radial-gradient(circle at top, rgba(244, 241, 234, 0.1), transparent 25%),
+    linear-gradient(135deg, rgba(244, 241, 234, 0.02), rgba(216, 199, 163, 0.08));
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  padding: 28px;
+  border: 1px solid rgba(184, 146, 74, 0.35);
+  background:
+    linear-gradient(135deg, rgba(31, 15, 19, 0.96), rgba(52, 15, 28, 0.88)),
+    radial-gradient(circle at top right, rgba(184, 146, 74, 0.22), transparent 32%);
+  border-radius: 28px;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.32);
+}
+
+.hero h1,
+.panel h2,
+.law-preview h3 {
+  font-family: 'Bodoni Moda', serif;
+}
+
+.hero h1 {
+  margin: 10px 0 12px;
+  color: var(--marble-white);
+  font-size: clamp(2.2rem, 4vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 46rem;
+  color: rgba(244, 241, 234, 0.8);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.hero-badges {
+  display: grid;
+  gap: 12px;
+  align-content: center;
+}
+
+.hero-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px solid rgba(184, 146, 74, 0.3);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--marble-white);
+}
+
+.court-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.95fr) minmax(380px, 1.25fr) minmax(300px, 0.9fr);
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.panel {
+  min-height: 520px;
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(184, 146, 74, 0.18);
+  background:
+    linear-gradient(180deg, rgba(247, 242, 232, 0.96), rgba(231, 220, 195, 0.86)),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.7), transparent 30%);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.panel--timeline {
+  background:
+    linear-gradient(180deg, rgba(249, 244, 235, 0.98), rgba(237, 227, 205, 0.94)),
+    radial-gradient(circle at top, rgba(184, 146, 74, 0.16), transparent 35%);
+  border: 1px solid rgba(184, 146, 74, 0.4);
+}
+
+.panel-heading {
+  margin-bottom: 18px;
+}
+
+.panel-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 0;
+  color: var(--deep-burgundy);
+  font-size: 1.5rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(74, 17, 26, 0.08);
+  color: var(--deep-burgundy);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.eyebrow--light {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--aged-parchment);
+}
+
+.form-grid,
+.law-list,
+.timeline,
+.verdict-actions {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(42, 42, 42, 0.8);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(42, 42, 42, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--ink-gray);
+}
+
+.field textarea {
+  min-height: 104px;
+  resize: vertical;
+}
+
+.field input[type='range'] {
+  padding: 0;
+}
+
+.range-readout {
+  font-size: 0.9rem;
+  color: var(--deep-burgundy);
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(17, 17, 17, 0.05);
+}
+
+.action-button,
+.ghost-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.action-button {
+  border: 0;
+  background: linear-gradient(135deg, var(--deep-burgundy), var(--obsidian-black));
+  color: var(--marble-white);
+  font-weight: 600;
+  box-shadow: 0 20px 32px rgba(74, 17, 26, 0.28);
+}
+
+.action-button:hover,
+.ghost-button:hover {
+  transform: translateY(-1px);
+}
+
+.action-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-button--secondary {
+  background: linear-gradient(135deg, var(--judicial-gold), #7f5a1a);
+}
+
+.ghost-button {
+  border: 1px dashed rgba(74, 17, 26, 0.28);
+  background: transparent;
+  color: var(--deep-burgundy);
+}
+
+.error-banner {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(138, 28, 28, 0.12);
+  color: var(--appeal-red);
+}
+
+.law-preview {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(74, 17, 26, 0.12);
+}
+
+.law-preview h3 {
+  margin: 0 0 12px;
+  color: var(--deep-burgundy);
+}
+
+.law-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.law-list li {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.46);
+}
+
+.law-list strong {
+  color: var(--deep-burgundy);
+}
+
+.status-ribbon {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, rgba(184, 146, 74, 0.22), rgba(74, 17, 26, 0.08));
+  color: var(--deep-burgundy);
+  line-height: 1.6;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.metric-grid--compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metric-card {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 18px;
+  color: var(--marble-white);
+}
+
+.metric-card span {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.86;
+}
+
+.metric-card strong {
+  font-size: 1rem;
+}
+
+.metric-card--gold {
+  background: linear-gradient(135deg, #ae7e31, #5d4010);
+}
+
+.metric-card--green {
+  background: linear-gradient(135deg, #1f6f50, #124a36);
+}
+
+.metric-card--red {
+  background: linear-gradient(135deg, #8a1c1c, #501010);
+}
+
+.timeline {
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 8px;
+}
+
+.timeline-item {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.58);
+  border-left: 4px solid rgba(184, 146, 74, 0.8);
+}
+
+.timeline-item p {
+  margin: 8px 0 0;
+  line-height: 1.7;
+}
+
+.timeline-item--prosecutor {
+  border-left-color: rgba(138, 28, 28, 0.85);
+}
+
+.timeline-item--defender {
+  border-left-color: rgba(31, 63, 111, 0.82);
+}
+
+.timeline-item--judge {
+  border-left-color: rgba(184, 146, 74, 0.98);
+  background: rgba(255, 248, 228, 0.75);
+}
+
+.timeline-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--deep-burgundy);
+}
+
+.courtroom-feed {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.courtroom-feed div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(17, 17, 17, 0.06);
+}
+
+.empty-state {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  min-height: 220px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 18px;
+  border: 1px dashed rgba(74, 17, 26, 0.2);
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.empty-state--verdict {
+  min-height: 360px;
+}
+
+.verdict-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(74, 17, 26, 0.92), rgba(32, 12, 19, 0.96)),
+    radial-gradient(circle at top, rgba(184, 146, 74, 0.26), transparent 36%);
+  color: var(--marble-white);
+  box-shadow: 0 22px 40px rgba(74, 17, 26, 0.22);
+}
+
+.stamp {
+  display: inline-flex;
+  width: fit-content;
+  padding: 7px 10px;
+  border: 1px solid rgba(184, 146, 74, 0.6);
+  border-radius: 999px;
+  color: var(--aged-parchment);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.verdict-sentence {
+  margin: 0;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+
+.verdict-reasoning,
+.verdict-compensation {
+  margin: 0;
+  line-height: 1.7;
+}
+
+@media (max-width: 1120px) {
+  .hero,
+  .court-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 16px;
+  }
+
+  .panel,
+  .hero {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .metric-grid,
+  .metric-grid--compact {
+    grid-template-columns: 1fr;
+  }
+}
