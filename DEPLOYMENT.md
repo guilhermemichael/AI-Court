@@ -9,7 +9,7 @@ Plano recomendado: frontend na Vercel e backend na Render.
    - `ai-court-backend` como Web Service Docker;
    - `ai-court-db` como Render Postgres 16;
    - `ai-court-redis` como Render Key Value;
-   - `alembic upgrade head` antes do deploy para criar `vector`, `pgcrypto` e as tabelas.
+   - `alembic upgrade head` no boot do container para criar `vector`, `pgcrypto` e as tabelas, mantendo compatibilidade com o plano free.
 3. Quando o Render pedir variaveis com `sync: false`, preencha:
    - `FRONTEND_ORIGIN`: URL final da Vercel, por exemplo `https://ai-court.vercel.app`.
    - `PDF_BASE_URL`: URL publica do backend, por exemplo `https://ai-court-backend.onrender.com`.

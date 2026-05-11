@@ -6,7 +6,6 @@ services:
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     healthCheckPath: /health
-    preDeployCommand: alembic upgrade head
     buildFilter:
       paths:
         - backend/**
