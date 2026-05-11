@@ -11,8 +11,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml ./
+ARG INSTALL_DEV=false
 RUN pip install --upgrade pip \
-    && pip install -e ".[dev]"
+    && if [ "$INSTALL_DEV" = "true" ]; then pip install -e ".[dev]"; else pip install -e "."; fi
 
 COPY . .
 

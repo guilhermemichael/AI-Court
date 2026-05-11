@@ -2,6 +2,8 @@
 
 Plano recomendado: frontend na Vercel e backend na Render.
 
+Se a Render travar no plano free, use Koyeb para o backend. Para este projeto, Koyeb costuma ser o caminho mais direto porque aceita Dockerfile, WebSocket e Postgres com `pgvector`.
+
 ## 1. Backend na Render
 
 1. No Render, crie um **Blueprint** apontando para este repositorio.
@@ -39,6 +41,43 @@ Depois que a Vercel gerar a URL definitiva, volte no Render e confirme que `FRON
 ```txt
 https://ai-court.vercel.app,https://www.seu-dominio.com
 ```
+
+## Alternativa: backend na Koyeb
+
+1. Na Koyeb, crie um **Database Service** PostgreSQL 16.
+2. Crie um **Web Service** conectado ao GitHub.
+3. Configure:
+   - Repository: `guilhermemichael/AI-Court`
+   - Branch: `main`
+   - Builder: `Dockerfile`
+   - Work directory: `backend`
+   - Dockerfile location: `Dockerfile`
+   - Exposed port: `8000`
+4. Variaveis do backend:
+
+```txt
+APP_ENV=production
+APP_DEBUG=false
+DATABASE_URL=<connection string do Postgres da Koyeb>
+REDIS_URL=redis://localhost:6379/0
+FRONTEND_ORIGIN=https://sua-url-da-vercel.vercel.app
+PDF_BASE_URL=https://sua-url-da-koyeb.koyeb.app
+PDF_STORAGE_PATH=/tmp/ai-court/pdfs
+LLM_MODE=mock
+EMBEDDING_DIMENSIONS=1536
+RATE_LIMIT_PER_MINUTE=60
+TRIAL_STEP_DELAY_MS=450
+```
+
+O comando do container ja roda `alembic upgrade head` antes de iniciar a API, entao as extensoes `vector` e `pgcrypto` e as tabelas sao criadas no primeiro boot.
+
+Depois que a Koyeb gerar a URL publica do backend, volte na Vercel e atualize:
+
+```txt
+VITE_API_BASE_URL=https://sua-url-da-koyeb.koyeb.app
+```
+
+Em seguida faca redeploy do frontend na Vercel.
 
 ## Observacoes de portfolio
 
