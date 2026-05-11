@@ -191,6 +191,14 @@ Docs:     http://localhost:8000/docs
 Health:   http://localhost:8000/health
 ```
 
+## Deploy
+
+O caminho recomendado de producao e frontend na Vercel e backend na Render.
+
+- Vercel: use `frontend` como Root Directory. O arquivo `frontend/vercel.json` define Vite, build e fallback SPA.
+- Render: use o Blueprint `render.yaml` da raiz para criar o Web Service Docker, Postgres 16 e Render Key Value.
+- Guia passo a passo: veja [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+
 ### Modo local sem Docker no Windows
 
 Se o Docker Desktop nao estiver disponivel, rode tudo localmente com SQLite:

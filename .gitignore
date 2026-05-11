@@ -12,6 +12,7 @@ venv/
 !.env.example
 !.env.local.example
 !backend/.env.local.example
+!frontend/.env.production.example
 
 # Node
 node_modules/

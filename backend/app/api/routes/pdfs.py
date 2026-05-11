@@ -22,7 +22,9 @@ async def download_pdf(
     verdict = await VerdictRepository(session).get_by_case(case_id)
     if case is None or verdict is None:
         raise HTTPException(status_code=404, detail="verdict_not_found")
-    path = VerdictPdfRenderer(Path(settings.pdf_storage_path)).render(case, verdict)
+    path = VerdictPdfRenderer(Path(settings.pdf_storage_path), settings.pdf_base_url).render(
+        case, verdict
+    )
     return FileResponse(
         path, media_type="application/pdf", filename=f"ai-court-verdict-{case_id}.pdf"
     )

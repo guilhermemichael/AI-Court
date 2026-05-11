@@ -13,8 +13,9 @@ from app.infrastructure.db.models import CaseModel, VerdictModel
 
 
 class VerdictPdfRenderer:
-    def __init__(self, output_dir: Path) -> None:
+    def __init__(self, output_dir: Path, public_base_url: str) -> None:
         self.output_dir = output_dir
+        self.public_base_url = public_base_url.rstrip("/")
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
     def render(self, case: CaseModel, verdict: VerdictModel) -> Path:
@@ -53,7 +54,7 @@ class VerdictPdfRenderer:
         )
         pdf.drawString(22 * mm, height - 98 * mm, f"Vencedor tecnico: {verdict.winner}")
 
-        qr_code = qr.QrCodeWidget(f"https://ai-court.local/cases/{case.id}")
+        qr_code = qr.QrCodeWidget(f"{self.public_base_url}/api/v1/cases/{case.id}")
         bounds = qr_code.getBounds()
         size = 28 * mm
         width_scale = size / (bounds[2] - bounds[0])

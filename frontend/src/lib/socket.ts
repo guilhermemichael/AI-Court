@@ -1,3 +1,5 @@
+import { WS_BASE_URL } from './config';
+
 export type TrialSocketHandlers = {
   onReady?: (message: string) => void;
   onStatus?: (status: string, content: string) => void;
@@ -11,8 +13,6 @@ export type TrialSocketHandlers = {
   }) => void;
   onVerdict?: (payload: { sentence: string; guilt_index: number; winner: string }) => void;
 };
-
-const WS_BASE_URL = import.meta.env.VITE_WS_BASE_URL ?? 'ws://localhost:8000';
 
 export function openTrialSocket(caseId: string, handlers: TrialSocketHandlers): WebSocket {
   const socket = new WebSocket(`${WS_BASE_URL}/api/v1/ws/trials/${caseId}`);
